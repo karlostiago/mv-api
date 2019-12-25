@@ -1,12 +1,16 @@
 package com.mv.api.model;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -37,6 +41,9 @@ public class Estabelecimento implements Serializable {
 	@Size(min = 12, max = 20)
 	@Column(name = "telefone_fixo")
 	private String telefoneFixo;
+	
+	@OneToMany(mappedBy = "estabelecimento", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Profissional> profissionais;
 
 	public void setId(Long id) {
 		this.id = id;
@@ -76,6 +83,14 @@ public class Estabelecimento implements Serializable {
 
 	public void setTelefoneFixo(String telefoneFixo) {
 		this.telefoneFixo = telefoneFixo;
+	}
+	
+	public List<Profissional> getProfissionais() {
+		return profissionais;
+	}
+	
+	public void setProfissionais(List<Profissional> profissionais) {
+		this.profissionais = profissionais;
 	}
 
 	@Override
