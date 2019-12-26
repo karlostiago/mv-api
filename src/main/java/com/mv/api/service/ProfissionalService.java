@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.mv.api.model.Profissional;
 import com.mv.api.repository.ProfissionalRepository;
+import com.mv.api.repository.filter.ProfissionalFilter;
 
 @Service
 public class ProfissionalService implements Serializable {
@@ -44,7 +45,7 @@ public class ProfissionalService implements Serializable {
 		return profissionalRepository.save(profissional);
 	}
 	
-	public List<Profissional> todos() {
-		return profissionalRepository.findAll();
+	public List<Profissional> filtrar(ProfissionalFilter profissionalFilter) {
+		return profissionalRepository.pesquisar(profissionalFilter);
 	}
 }

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.mv.api.model.Estabelecimento;
 import com.mv.api.repository.EstabelecimentoRepository;
+import com.mv.api.repository.filter.EstabelecimentoFilter;
 
 @Service
 public class EstabelecimentoService implements Serializable {
@@ -44,7 +45,7 @@ public class EstabelecimentoService implements Serializable {
 		return estabelecimentoRepository.save(estabelecimento);
 	}
 	
-	public List<Estabelecimento> todos() {
-		return estabelecimentoRepository.findAll();
+	public List<Estabelecimento> filtrar(EstabelecimentoFilter estabelecimentoFilter) {
+		return estabelecimentoRepository.pesquisar(estabelecimentoFilter);
 	}
 }

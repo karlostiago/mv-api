@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mv.api.event.CreateResourceEvent;
 import com.mv.api.model.Estabelecimento;
+import com.mv.api.repository.filter.EstabelecimentoFilter;
 import com.mv.api.service.EstabelecimentoService;
 
 @RestController
@@ -33,8 +34,8 @@ public class EstabelecimentoResource {
 	private ApplicationEventPublisher publisher;
 	
 	@GetMapping("/listar")
-	public List<Estabelecimento> listar() {
-		return estabelecimentoService.todos();
+	public List<Estabelecimento> listar(EstabelecimentoFilter estabelecimentoFilter) {
+		return estabelecimentoService.filtrar(estabelecimentoFilter);
 	}
 	
 	@PostMapping("/novo")

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mv.api.event.CreateResourceEvent;
 import com.mv.api.model.Profissional;
+import com.mv.api.repository.filter.ProfissionalFilter;
 import com.mv.api.service.ProfissionalService;
 
 @RestController
@@ -34,8 +35,8 @@ public class ProfissionalResource {
 	private ApplicationEventPublisher publisher;
 	
 	@GetMapping("/listar")
-	public List<Profissional> listar() {
-		return profissionalService.todos();
+	public List<Profissional> listar(ProfissionalFilter profissionalFilter) {
+		return profissionalService.filtrar(profissionalFilter);
 	}
 	
 	@PostMapping("/novo")
