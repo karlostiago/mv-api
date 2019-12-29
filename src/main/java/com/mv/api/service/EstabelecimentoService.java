@@ -40,7 +40,7 @@ public class EstabelecimentoService implements Serializable {
 	@Transactional
 	public Estabelecimento atualizar(Long id, Estabelecimento estabelecimento) {
 		Estabelecimento estabelecimentoSalvo = porId(id);
-		telefoneService.remove(estabelecimento.getTelefones());
+		telefoneService.remove(estabelecimentoSalvo.getTelefones());
 		BeanUtils.copyProperties(estabelecimento, estabelecimentoSalvo, "id");
 		estabelecimentoSalvo.setTelefones(estabelecimento.getTelefones());
 		
