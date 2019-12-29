@@ -11,8 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Table(name = "vinculo")
 public class Vinculo implements Serializable {
@@ -23,15 +21,20 @@ public class Vinculo implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "profissional_id", nullable = true)
 	private Profissional profissional;
 	
-	@JsonIgnore
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "estabelecimento_id", nullable = true)
 	private Estabelecimento estabelecimento;
+	
+	public Vinculo() { }
+	
+	public Vinculo(Profissional profissional, Estabelecimento estabelecimento) {
+		this.profissional = profissional;
+		this.estabelecimento = estabelecimento;
+	}
 
 	public Long getId() {
 		return id;
