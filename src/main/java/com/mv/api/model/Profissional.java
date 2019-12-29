@@ -37,8 +37,8 @@ public class Profissional implements Serializable {
 	private List<Telefone> telefones;
 	
 	@Transient
-	private boolean selecionado;
-	
+	private List<Estabelecimento> estabelecimentos;
+		
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -71,12 +71,12 @@ public class Profissional implements Serializable {
 		this.telefones = telefones;
 	}
 	
-	public boolean isSelecionado() {
-		return selecionado;
+	public List<Estabelecimento> getEstabelecimentos() {
+		return estabelecimentos;
 	}
 
-	public void setSelecionado(boolean selecionado) {
-		this.selecionado = selecionado;
+	public void setEstabelecimentos(List<Estabelecimento> estabelecimentos) {
+		this.estabelecimentos = estabelecimentos;
 	}
 
 	@Override
