@@ -10,6 +10,7 @@ import javax.persistence.TypedQuery;
 import com.mv.api.model.Estabelecimento;
 import com.mv.api.model.Profissional;
 import com.mv.api.model.Vinculo;
+import com.mv.api.model.vo.VinculoVO;
 import com.mv.api.repository.query.VinculoRepositoryQuery;
 
 public class VinculoRepositoryImpl implements VinculoRepositoryQuery {
@@ -54,5 +55,16 @@ public class VinculoRepositoryImpl implements VinculoRepositoryQuery {
 		catch(NoResultException e) {
 			return null;
 		}
+	}
+
+	@Override
+	public List<VinculoVO> todos() {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT NEW com.mv.api.model.vo.VinculoVO(vinculo.id, profissional.nome, estabelecimento.nome) FROM Vinculo vinculo ");
+		sql.append("LEFT JOIN vinculo.profissional profissional ");
+		sql.append("LEFT JOIN vinculo.estabelecimento estabelecimento ");
+		sql.append("WHERE 1 = 1");
+		TypedQuery<VinculoVO> query = manager.createQuery(sql.toString(), VinculoVO.class);
+		return query.getResultList();
 	}
 }

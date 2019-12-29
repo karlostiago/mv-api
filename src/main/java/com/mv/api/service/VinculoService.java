@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import com.mv.api.model.Estabelecimento;
 import com.mv.api.model.Profissional;
 import com.mv.api.model.Vinculo;
+import com.mv.api.model.vo.VinculoVO;
 import com.mv.api.repository.VinculoRepository;
 
 @Service
@@ -49,8 +50,8 @@ public class VinculoService implements Serializable {
 		vinculoRepository.deleteById(id);
 	}
 	
-	public List<Vinculo> todos() {
-		return vinculoRepository.findAll();
+	public List<VinculoVO> todos() {
+		return vinculoRepository.todos();
 	}
 	
 	public List<Vinculo> buscarPor(Profissional profissional) {

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mv.api.event.CreateResourceEvent;
 import com.mv.api.model.Profissional;
 import com.mv.api.model.Vinculo;
+import com.mv.api.model.vo.VinculoVO;
 import com.mv.api.service.VinculoService;
 
 @RestController
@@ -34,7 +35,7 @@ public class VinculoResource {
 	private ApplicationEventPublisher publisher;
 	
 	@GetMapping("/listar")
-	public List<Vinculo> listar() {
+	public List<VinculoVO> listar() {
 		return vinculoService.todos();
 	}
 	
