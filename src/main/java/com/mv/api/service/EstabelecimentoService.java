@@ -4,12 +4,15 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
 import com.mv.api.model.Estabelecimento;
+import com.mv.api.model.Telefone;
 import com.mv.api.repository.EstabelecimentoRepository;
 import com.mv.api.repository.filter.EstabelecimentoFilter;
 
@@ -21,6 +24,9 @@ public class EstabelecimentoService implements Serializable {
 	@Autowired
 	private EstabelecimentoRepository estabelecimentoRepository;
 	
+	@Autowired
+	private TelefoneService telefoneService;
+	
 	public Estabelecimento porId(Long id) {
 		Optional<Estabelecimento> estabelecimento = estabelecimentoRepository.findById(id);
 		
@@ -31,9 +37,19 @@ public class EstabelecimentoService implements Serializable {
 		return estabelecimento.get();
 	}
 	
+	@Transactional
 	public Estabelecimento atualizar(Long id, Estabelecimento estabelecimento) {
 		Estabelecimento estabelecimentoSalvo = porId(id);
+		telefoneService.remove(estabelecimento.getTelefones());
 		BeanUtils.copyProperties(estabelecimento, estabelecimentoSalvo, "id");
+		estabelecimentoSalvo.setTelefones(estabelecimento.getTelefones());
+		
+		if(!estabelecimentoSalvo.getTelefones().isEmpty()) {
+			for(Telefone telefone : estabelecimentoSalvo.getTelefones()) {
+				telefone.setEstabelecimento(estabelecimentoSalvo);
+			}
+		}
+		
 		return estabelecimentoRepository.save(estabelecimentoSalvo);
 	}
 	
@@ -42,6 +58,13 @@ public class EstabelecimentoService implements Serializable {
 	}
 	
 	public Estabelecimento salvar(Estabelecimento estabelecimento) {
+		
+		if(estabelecimento.getTelefones() != null && !estabelecimento.getTelefones().isEmpty()) {
+			for(Telefone telefone : estabelecimento.getTelefones()) {
+				telefone.setEstabelecimento(estabelecimento);
+			}
+		}
+		
 		return estabelecimentoRepository.save(estabelecimento);
 	}
 	

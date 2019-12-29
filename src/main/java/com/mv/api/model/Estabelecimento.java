@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -12,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -30,21 +30,15 @@ public class Estabelecimento implements Serializable {
 	private String nome;
 	
 	@NotNull
-	@Size(min = 10, max = 255)
+	@Size(min = 5, max = 255)
 	private String endereco;
 	
-	@NotNull
-	@Size(min = 12, max = 20)
-	@Column(name = "telefone_celular")
-	private String telefoneCelular;
+	@OneToMany(mappedBy = "estabelecimento", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE })
+	private List<Telefone> telefones;
 	
-	@Size(min = 12, max = 20)
-	@Column(name = "telefone_fixo")
-	private String telefoneFixo;
-	
-	@OneToMany(mappedBy = "estabelecimento", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Profissional> profissionais;
-
+	@Transient
+	private boolean selecionado;
+		
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -68,29 +62,21 @@ public class Estabelecimento implements Serializable {
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
-
-	public String getTelefoneCelular() {
-		return telefoneCelular;
+	
+	public List<Telefone> getTelefones() {
+		return telefones;
 	}
 
-	public void setTelefoneCelular(String telefoneCelular) {
-		this.telefoneCelular = telefoneCelular;
-	}
-
-	public String getTelefoneFixo() {
-		return telefoneFixo;
-	}
-
-	public void setTelefoneFixo(String telefoneFixo) {
-		this.telefoneFixo = telefoneFixo;
+	public void setTelefones(List<Telefone> telefones) {
+		this.telefones = telefones;
 	}
 	
-	public List<Profissional> getProfissionais() {
-		return profissionais;
+	public boolean isSelecionado() {
+		return selecionado;
 	}
-	
-	public void setProfissionais(List<Profissional> profissionais) {
-		this.profissionais = profissionais;
+
+	public void setSelecionado(boolean selecionado) {
+		this.selecionado = selecionado;
 	}
 
 	@Override

@@ -1,16 +1,17 @@
 package com.mv.api.model;
 
 import java.io.Serializable;
+import java.util.List;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -29,22 +30,15 @@ public class Profissional implements Serializable {
 	private String nome;
 	
 	@NotNull
-	@Size(min = 10, max = 255)
+	@Size(min = 5, max = 255)
 	private String endereco;
 	
-	@NotNull
-	@Size(min = 12, max = 20)
-	@Column(name = "telefone_celular")
-	private String telefoneCelular;
+	@OneToMany(mappedBy = "profissional", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE })
+	private List<Telefone> telefones;
 	
-	@Size(min = 12, max = 20)
-	@Column(name = "telefone_fixo")
-	private String telefoneFixo;
+	@Transient
+	private boolean selecionado;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "estabelecimento_id", nullable = true)
-	private Estabelecimento estabelecimento;
-
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -68,21 +62,21 @@ public class Profissional implements Serializable {
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
-
-	public String getTelefoneCelular() {
-		return telefoneCelular;
+	
+	public List<Telefone> getTelefones() {
+		return telefones;
 	}
 
-	public void setTelefoneCelular(String telefoneCelular) {
-		this.telefoneCelular = telefoneCelular;
+	public void setTelefones(List<Telefone> telefones) {
+		this.telefones = telefones;
+	}
+	
+	public boolean isSelecionado() {
+		return selecionado;
 	}
 
-	public String getTelefoneFixo() {
-		return telefoneFixo;
-	}
-
-	public void setTelefoneFixo(String telefoneFixo) {
-		this.telefoneFixo = telefoneFixo;
+	public void setSelecionado(boolean selecionado) {
+		this.selecionado = selecionado;
 	}
 
 	@Override
