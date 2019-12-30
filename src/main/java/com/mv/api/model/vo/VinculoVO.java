@@ -7,13 +7,15 @@ public class VinculoVO implements Serializable {
 	private static final long serialVersionUID = 8712250001084290621L;
 
 	private Long id;
+	private Long idProfissional;
 	private String nomeProfissional;
 	private String nomeEstabelecimento;
 	
 	public VinculoVO() { }
 	
-	public VinculoVO(Long id, String nomeProfissional, String nomeEstabelecimento) {
+	public VinculoVO(Long id, Long idProfissional, String nomeProfissional, String nomeEstabelecimento) {
 		this.id = id;
+		this.idProfissional = idProfissional;
 		this.nomeProfissional = nomeProfissional;
 		this.nomeEstabelecimento = nomeEstabelecimento;
 	}
@@ -40,5 +42,13 @@ public class VinculoVO implements Serializable {
 
 	public void setNomeEstabelecimento(String nomeEstabelecimento) {
 		this.nomeEstabelecimento = nomeEstabelecimento;
+	}
+
+	public Long getIdProfissional() {
+		return idProfissional;
+	}
+
+	public void setIdProfissional(Long idProfissional) {
+		this.idProfissional = idProfissional;
 	}
 }

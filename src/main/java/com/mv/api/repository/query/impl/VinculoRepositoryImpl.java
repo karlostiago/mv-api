@@ -62,7 +62,7 @@ public class VinculoRepositoryImpl implements VinculoRepositoryQuery {
 	@Override
 	public List<VinculoVO> todos() {
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT NEW com.mv.api.model.vo.VinculoVO(vinculo.id, profissional.nome, estabelecimento.nome) FROM Vinculo vinculo ");
+		sql.append("SELECT NEW com.mv.api.model.vo.VinculoVO(vinculo.id, profissional.id, profissional.nome, estabelecimento.nome) FROM Vinculo vinculo ");
 		sql.append("LEFT JOIN vinculo.profissional profissional ");
 		sql.append("LEFT JOIN vinculo.estabelecimento estabelecimento ");
 		sql.append("WHERE 1 = 1");
