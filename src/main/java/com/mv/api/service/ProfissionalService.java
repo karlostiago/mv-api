@@ -1,6 +1,7 @@
 package com.mv.api.service;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -11,9 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.mv.api.model.Estabelecimento;
 import com.mv.api.model.Profissional;
 import com.mv.api.model.Telefone;
+import com.mv.api.model.Vinculo;
 import com.mv.api.repository.ProfissionalRepository;
+import com.mv.api.repository.VinculoRepository;
 import com.mv.api.repository.filter.ProfissionalFilter;
 
 @Service
@@ -25,6 +29,9 @@ public class ProfissionalService implements Serializable {
 	private ProfissionalRepository profissionalRepository;
 	
 	@Autowired
+	private VinculoRepository vinculoRepository;
+	
+	@Autowired
 	private TelefoneService telefoneService;
 	
 	public Profissional porId(Long id) {
@@ -33,8 +40,21 @@ public class ProfissionalService implements Serializable {
 		if(!profissional.isPresent()) {
 			throw new EmptyResultDataAccessException(1);
 		}
+
+		vincularEstabelecimentos(profissional.get());
 		
 		return profissional.get();
+	}
+	
+	private void vincularEstabelecimentos(Profissional profissional) {
+		List<Vinculo> vinculos = vinculoRepository.buscarVinculosPara(profissional);
+		List<Estabelecimento> estabelecimentos = new ArrayList<>();
+		
+		for(Vinculo vinculo : vinculos) {
+			estabelecimentos.add(vinculo.getEstabelecimento());
+		}
+		
+		profissional.setEstabelecimentos(estabelecimentos);
 	}
 	
 	@Transactional

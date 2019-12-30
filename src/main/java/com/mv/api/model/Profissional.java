@@ -38,7 +38,13 @@ public class Profissional implements Serializable {
 	
 	@Transient
 	private List<Estabelecimento> estabelecimentos;
-		
+	
+	public Profissional() { }
+	
+	public Profissional(Long id) {
+		this.id = id;
+	}
+	
 	public void setId(Long id) {
 		this.id = id;
 	}

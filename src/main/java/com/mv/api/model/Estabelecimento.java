@@ -11,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -35,10 +34,7 @@ public class Estabelecimento implements Serializable {
 	
 	@OneToMany(mappedBy = "estabelecimento", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE, CascadeType.PERSIST, CascadeType.MERGE })
 	private List<Telefone> telefones;
-	
-	@Transient
-	private boolean selecionado;
-		
+			
 	public void setId(Long id) {
 		this.id = id;
 	}
@@ -71,14 +67,6 @@ public class Estabelecimento implements Serializable {
 		this.telefones = telefones;
 	}
 	
-	public boolean isSelecionado() {
-		return selecionado;
-	}
-
-	public void setSelecionado(boolean selecionado) {
-		this.selecionado = selecionado;
-	}
-
 	@Override
 	public int hashCode() {
 		final int prime = 31;

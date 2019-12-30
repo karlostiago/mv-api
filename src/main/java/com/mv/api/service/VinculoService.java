@@ -5,7 +5,6 @@ import java.util.List;
 
 import javax.persistence.Transient;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
@@ -35,15 +34,18 @@ public class VinculoService implements Serializable {
 	}
 	
 	@Transient
-	public Vinculo atualizar(Long id, Vinculo vinculo) {
-		Vinculo vinculoSalvo = vinculoRepository.buscaPorId(id);
+	public List<Vinculo> atualizar(Long id, Profissional profissional) {
+		List<Vinculo> vinculos = buscarPor(new Profissional(id));
 		
-		if(vinculoSalvo == null) {
-			throw new EmptyResultDataAccessException(1);
+		for(Vinculo vinculo : vinculos) {
+			remover(vinculo.getId());
 		}
 		
-		BeanUtils.copyProperties(vinculo, vinculoSalvo, "id");
-		return vinculoRepository.save(vinculoSalvo);
+		profissional.setId(id);
+		salvar(profissional);
+		vinculos = buscarPor(profissional);
+		
+		return vinculos;
 	}
 	
 	public void remover(Long id) {
@@ -56,5 +58,15 @@ public class VinculoService implements Serializable {
 	
 	public List<Vinculo> buscarPor(Profissional profissional) {
 		return vinculoRepository.buscarVinculosPara(profissional);
+	}
+	
+	public Vinculo porId(Long id) {
+		Vinculo vinculo = vinculoRepository.buscaPorId(id);
+		
+		if(vinculo == null) {
+			throw new EmptyResultDataAccessException(1);
+		}
+		
+		return vinculo;
 	}
 }

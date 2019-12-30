@@ -54,9 +54,16 @@ public class VinculoResource {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody Vinculo vinculo) {
+	@ResponseStatus(HttpStatus.OK)
+	public List<Vinculo> atualizar(@PathVariable Long id, @RequestBody Profissional profissional) {
 	
-		Vinculo vinculoSalvo = vinculoService.atualizar(id, vinculo);
-		return ResponseEntity.ok(vinculoSalvo);
+		List<Vinculo> vinculos = vinculoService.atualizar(id, profissional);
+		return vinculos;
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<?> buscarPorId(@PathVariable Long id) {
+		Vinculo vinculo= vinculoService.porId(id);
+		return vinculo != null ? ResponseEntity.ok(vinculo) : ResponseEntity.notFound().build();
 	}
 }

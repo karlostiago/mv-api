@@ -32,7 +32,9 @@ public class VinculoRepositoryImpl implements VinculoRepositoryQuery {
 	@Override
 	public List<Vinculo> buscarVinculosPara(Profissional profissional) {
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT vinculo FROM Vinculo vinculo WHERE 1 = 1 AND vinculo.profissional = :profissional");
+		sql.append("SELECT vinculo FROM Vinculo vinculo ");
+		sql.append("LEFT JOIN FETCH vinculo.estabelecimento ");
+		sql.append("WHERE 1 = 1 AND vinculo.profissional = :profissional");
 		TypedQuery<Vinculo> query = manager.createQuery(sql.toString(), Vinculo.class);
 		query.setParameter("profissional", profissional);
 		return query.getResultList();
