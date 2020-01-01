@@ -35,16 +35,11 @@ public class VinculoService implements Serializable {
 	
 	@Transient
 	public List<Vinculo> atualizar(Long id, Profissional profissional) {
-		List<Vinculo> vinculos = buscarPor(new Profissional(id));
+		Vinculo vinculo = porId(id);		
+		remover(vinculo.getId());
 		
-		for(Vinculo vinculo : vinculos) {
-			remover(vinculo.getId());
-		}
-		
-		profissional.setId(id);
 		salvar(profissional);
-		vinculos = buscarPor(profissional);
-		
+		List<Vinculo> vinculos = buscarPor(profissional);
 		return vinculos;
 	}
 	
@@ -62,6 +57,10 @@ public class VinculoService implements Serializable {
 	
 	public Vinculo porId(Long id) {
 		Vinculo vinculo = vinculoRepository.buscaPorId(id);
+		
+		if(vinculo == null) {
+			vinculo = vinculoRepository.ultimoSalvo();
+		}
 		
 		if(vinculo == null) {
 			throw new EmptyResultDataAccessException(1);

@@ -13,4 +13,5 @@ public interface VinculoRepositoryQuery {
 	public List<Vinculo> buscarVinculosPara(Profissional profissional);
 	public Vinculo buscaPorId(Long id);
 	public List<VinculoVO> todos();
+	public Vinculo ultimoSalvo();
 }

@@ -69,4 +69,20 @@ public class VinculoRepositoryImpl implements VinculoRepositoryQuery {
 		TypedQuery<VinculoVO> query = manager.createQuery(sql.toString(), VinculoVO.class);
 		return query.getResultList();
 	}
+
+	@Override
+	public Vinculo ultimoSalvo() {
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT vinculo FROM Vinculo vinculo ");
+		sql.append("LEFT JOIN FETCH vinculo.profissional ");
+		sql.append("LEFT JOIN FETCH vinculo.estabelecimento ");
+		sql.append("WHERE 1 = 1 ");
+		sql.append("ORDER BY vinculo.id DESC ");
+		
+		TypedQuery<Vinculo> query = manager.createQuery(sql.toString(), Vinculo.class);
+		Vinculo vinculo = query.setMaxResults(1).getSingleResult();
+		return vinculo;
+	}
+	
+	
 }
